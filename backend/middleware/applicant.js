@@ -1,11 +1,11 @@
 const conn = require("../db/dbConnection");
 const util = require("util"); //helper
 
-const authorized = async (req, res, next) => {
+const applicant = async (req, res, next) => {
   const query = util.promisify(conn.query).bind(conn);
   const { token } = req.headers;
-  const user = await query("select * from admin where token = ?", [token]);
-  if (user[0]) {
+  const admin = await query("select * from applicant where token = ?", [token]);
+  if (admin[0]) {
     next();
   } else {
     res.status(403).json({
@@ -14,4 +14,4 @@ const authorized = async (req, res, next) => {
   }
 };
 
-module.exports = authorized;
+module.exports = applicant;

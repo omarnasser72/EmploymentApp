@@ -15,6 +15,7 @@ app.use(cors()); // allow http requests local hosts
 const auth = require("./routes/Auth");
 const jobs = require("./routes/jobs");
 const qualfications = require("./routes/qualifications");
+const requests = require("./routes/requests");
 //----------------run the app module-----------------
 app.listen(4000, "localhost", () => {
   console.log("SERVER IS RUNNING");
@@ -24,3 +25,4 @@ app.listen(4000, "localhost", () => {
 app.use("/auth", auth);
 app.use("/jobs", jobs);
 app.use("/qualfications", qualfications);
+app.use("/requests", requests);

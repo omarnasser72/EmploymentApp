@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2023 at 01:50 AM
+-- Generation Time: Apr 22, 2023 at 09:25 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -58,16 +58,16 @@ CREATE TABLE `applicant` (
   `phone` varchar(255) NOT NULL,
   `status` tinyint(255) NOT NULL COMMENT '1 >> online\r\n0 >> offline',
   `jobSearches` varchar(1024) NOT NULL,
-  `token` varchar(255) NOT NULL
+  `token` varchar(255) NOT NULL,
+  `image_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `applicant`
 --
 
-INSERT INTO `applicant` (`id`, `email`, `name`, `password`, `phone`, `status`, `jobSearches`, `token`) VALUES
-(1, 'dsffdsf', 'gfdgfdgdf', 'gffdgfdg', 'gfdgdfgfd', 0, 'dgfgdgd', 'fgdgfdgfd'),
-(2, 'fgdgfdgdf', 'fdgfdgfd', 'hgfhghfgh', 'fdgdfgdfgfdg', 1, 'gfdgfdgfd', 'dfggfdgfd');
+INSERT INTO `applicant` (`id`, `email`, `name`, `password`, `phone`, `status`, `jobSearches`, `token`, `image_url`) VALUES
+(21, 'ali@m.com', 'ali ahmed', '$2b$10$Fo88Ve3N7l2W3bwe3SPHpuDwaR9kYxPoJdeR4BCbHL.cp9Ll2ckf2', '01273333686', 0, '', 'f0cd0d4343f073f1d20f4de12a0b0896', '');
 
 -- --------------------------------------------------------
 
@@ -133,7 +133,6 @@ CREATE TABLE `job` (
 --
 
 INSERT INTO `job` (`id`, `position`, `description`, `offer`, `maxCandidateNumber`, `qualifications`) VALUES
-(1, 'fsdfds', 'dgfgdf', '', 12, 5),
 (2, 'gfd', 'kjkl', 'kljkjnknk', 4, 5);
 
 -- --------------------------------------------------------
@@ -153,7 +152,21 @@ CREATE TABLE `qualifications` (
 --
 
 INSERT INTO `qualifications` (`id`, `name`, `description`) VALUES
-(5, 'devops qualifications', 'IT background and coding skills');
+(5, 'devops qualifications', 'IT background and coding skills'),
+(6, 'devops qualifications', 'IT background and coding skills');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `requests`
+--
+
+CREATE TABLE `requests` (
+  `id` int(255) NOT NULL,
+  `job_id` int(255) NOT NULL,
+  `applicant_id` int(255) NOT NULL,
+  `status` int(255) NOT NULL COMMENT '0>>pending\r\n1>>accepted\r\n-1>>rejected'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -214,6 +227,13 @@ ALTER TABLE `qualifications`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `requests`
+--
+ALTER TABLE `requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `const_apps_id` (`applicant_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -227,7 +247,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `applicant`
 --
 ALTER TABLE `applicant`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `job`
@@ -239,7 +259,13 @@ ALTER TABLE `job`
 -- AUTO_INCREMENT for table `qualifications`
 --
 ALTER TABLE `qualifications`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `requests`
+--
+ALTER TABLE `requests`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -278,6 +304,13 @@ ALTER TABLE `applicant_req_jobs`
 --
 ALTER TABLE `job`
   ADD CONSTRAINT `const_qual` FOREIGN KEY (`qualifications`) REFERENCES `qualifications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `requests`
+--
+ALTER TABLE `requests`
+  ADD CONSTRAINT `const_apps_id` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `const_job_id` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

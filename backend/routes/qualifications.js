@@ -31,18 +31,6 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      /*
-      //2) validate the image
-      if (!req.file) {
-        return res.status(400).json({
-          errors: [
-            {
-              msg: "image required",
-            },
-          ],
-        });
-      }
-      */
       //2) prepare qualification object
       const qualfication = {
         name: req.body.name,
