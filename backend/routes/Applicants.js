@@ -49,8 +49,11 @@ router.post(
         name: req.body.name,
         email: req.body.email,
         image_url: req.file.filename,
-        password: req.body.password,
+        password: await bcrypt.hash(req.body.password, 10),
         phone: req.body.phone,
+        status: 0,
+        token: crypto.randomBytes(16).toString("hex"), // json web token, crypto >> random encryption standard
+        jobSearches: "",
       };
 
       //4-Insert applicant into db
