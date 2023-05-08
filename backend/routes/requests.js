@@ -35,7 +35,7 @@ router.post(
       }
       //2) prepare request object
       const request = {
-        applicant_id: req.body.id,
+        applicant_id: req.body.applicant_id,
         job_id: req.body.job_id,
         status: req.body.status,
       };
